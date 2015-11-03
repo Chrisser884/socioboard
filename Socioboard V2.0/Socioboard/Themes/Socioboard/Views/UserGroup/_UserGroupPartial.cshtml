@@ -1,0 +1,125 @@
+﻿@using Domain.Socioboard.Domain;
+@{
+    string path = @System.Configuration.ConfigurationManager.AppSettings["domain"];
+    User objUser = (User)Session["User"];
+}
+<input type="hidden" id="UserEmailAddress" value="@objUser.EmailId" />
+
+<div class="container-fluid">
+    <h1 class="page-header">@GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_UserAndGroup</h1>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <!-- Nav tabs -->
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="Users" class="tab-pane fade active in">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+<<<<<<< HEAD
+                               @GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_Groups
+=======
+                                Groups
+>>>>>>> e052534b7a2a3744cad9dddbc3c6acccf394ca7b
+                                   
+                                <div class="btn-group pull-right">
+                                    <button data-target="#addGroup" data-toggle="modal" class="btn btn-default btn-xs" type="button">
+                                        <i class="fa fa-plus fa-2x"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <p>@GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_GroupsDescription</p>
+
+                                <ul class="nav nav-tabs partialContents" id="grouptabs" data-url="/UserGroup/LoadGroup">
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="partialContents" id="groupinfo" style="display: none">
+                                    <div id="home123" class="">
+                                        <div class="panel-body" id="profileconnectedwithgroup">
+                                        </div>
+
+                                        <div class="panel-body partialContents" id="userprofiles" data-url="/UserGroup/LoadGroupUserProfiles">
+                                        </div>
+
+                                        <div class="panel-body" id="pendinguserforcurrentgroup">
+                                        </div>
+
+                                        <div class="panel-body" id="accepteduserforcurrentgroup">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- </div> -->
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+
+                        </div>
+                    </div>
+
+                    <!-- addgroup Modal -->
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="addGroup" class="modal fade" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">@GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_Close</span></button>
+                                    <h4 id="myModalLabel" class="modal-title">@GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_CreateGroup</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>@GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_GroupsDescription2</p>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">@GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_GroupName</span>
+                                        <input id="txtgroupname" type="text" placeholder="Name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button data-dismiss="modal" class="btn btn-default" type="button">@GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_Close</button>
+                                    <button id="btnaddgroup" class="btn btn-primary" type="button">@GlobusMultiLanguageLib.Resources.UserGroup_UserGroupPartial_Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end of addgroup modal-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /.panel-body -->
+</div>
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        $(".partialContents").each(function (index, item) {
+            var url = $(item).data("url");
+            if (url && url.length > 0) {
+                $(item).load(url);
+            }
+        });
+
+        $('#btnaddgroup').click(function () {
+            debugger;
+            var gname = $('#txtgroupname').val();
+            if (gname == "") {
+                alertify.error('Please Enter a group Name');
+                return;
+            }
+            if (gname == "Socioboard") {
+                alertify.error('Please change group Name');
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '../UserGroup/AddGroup?groupname=' + gname,
+                success: function (msg) {
+                   // jQuery.noConflict();
+                    $('#addGroup').modal('hide');
+                    window.location = self.location;
+                }
+            });
+        });
+
+    });
+</script>

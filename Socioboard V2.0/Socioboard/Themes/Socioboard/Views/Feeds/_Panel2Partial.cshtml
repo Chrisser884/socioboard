@@ -1,0 +1,192 @@
+﻿@using Domain.Socioboard.Domain;
+@{
+    Layout = null;
+    string path = @System.Configuration.ConfigurationManager.AppSettings["domain"];
+    bool check = true;
+    string hrefPost = string.Empty;
+}
+<ul class="chat">
+    @foreach (var dicitem in (Dictionary<string, List<object>>)Model)
+    {
+        if (dicitem.Key == "facebook")
+        {
+
+            List<object> lstdic = (List<object>)dicitem.Value;
+            foreach (var facebookmsg in lstdic)
+            {
+                FacebookFeed item = (FacebookFeed)facebookmsg;
+        <li class="left clearfix">
+            <span class="chat-img pull-left">
+                <img alt="User Avatar" class="img-circle profilePic" src="https://graph.facebook.com/@item.FromId/picture?type=small"/>
+            </span>
+            <div class="chat-body clearfix">
+                <div>
+                    <strong class="primary-font">@item.FromName</strong>
+                    <small class="pull-right text-muted">
+                        <i class="fa fa-clock-o fa-fw"></i>@item.FeedDate
+                    </small>
+                </div>
+
+                 <div style="margin-top: 2%;">
+                @try
+                {
+                    hrefPost = "https://www.facebook.com/" + item.FromId + "/posts/" + item.FeedId.Replace(item.FromId, string.Empty).Replace("_", string.Empty).Trim();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error : " + ex.StackTrace);
+
+                }
+               @* <p>*@
+                    <a target="_blank" href="@hrefPost">
+                        @item.FeedDescription
+                    </a>
+                @*</p>*@
+
+                @*Display image of post*@
+                @try
+                {
+                    if (!string.IsNullOrEmpty(item.Picture) && item.Picture != null)
+                    {
+                        <br />
+                    <img src="@item.Picture" style="width: 180px; height: 90px; margin-top: 5%;"> </img>
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                }
+
+                     </div>
+                <br>
+            </div>
+
+            @*<div class="input-group">
+                <input type="text" id="textfb_@item.MessageId" class="form-control input-sm" placeholder="Type your comment here...">
+                <span class="input-group-btn">
+                    <button class="btn btn-warning btn-sm" id="okfb_@item.MessageId" onclick="commentFB('@item.MessageId','@item.ProfileId')">
+                        @GlobusMultiLanguageLib.Resources.Feeds_Panel1Partial_Comment
+
+
+                    </button>
+
+                    @if (item.FbLike == "likes")
+                    {
+                        <button status="@item.FbLike" id="likefb_@item.MessageId" onclick="facebookLike('@item.Id','@item.ProfileId','@item.MessageId')" type="button" class="btn btn-info btn-circle">
+                            <i class="fa fa-thumbs-o-up"></i>
+                        </button>
+                    }
+                    else
+                    {
+                        <button status="@item.FbLike" id="likefb_@item.MessageId" onclick="facebookLike('@item.Id','@item.ProfileId','@item.MessageId')" type="button" class="btn btn-info btn-circle">
+                            <i class="fa fa-thumbs-o-down"></i>
+                        </button>
+                    
+                    }
+                </span>
+            </div>*@
+
+        </li>
+            }
+        }
+
+        if (dicitem.Key == "twitter")
+        {
+
+            List<object> lstdic = (List<object>)dicitem.Value;
+            foreach (var twittermsg in lstdic)
+            {
+                TwitterMessage item = (TwitterMessage)twittermsg;
+        <li class="left clearfix">
+            <span class="chat-img pull-left">
+                <img id="user_avtar" alt="User Avatar" class="img-circle profilePic" src="@item.FromProfileUrl"/>
+            </span>
+            <div class="chat-body clearfix">
+                <div>
+                    <strong class="primary-font">@item.FromName</strong>
+                    <small class="pull-right text-muted">
+                        <i class="fa fa-clock-o fa-fw"></i>@item.MessageDate
+                    </small>
+                </div>
+
+
+                @try
+                {
+                    hrefPost = "https://www.twitter.com/" + item.FromId + "/status/" + item.MessageId.Replace(item.FromId, string.Empty).Replace("_", string.Empty).Trim();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error : " + ex.StackTrace);
+
+                }
+                <p>
+                    <a target="_blank" href="@hrefPost">
+                        @item.TwitterMsg
+                    </a>
+                </p>
+            </div>
+        </li>
+                
+            }
+        }
+
+
+        if (dicitem.Key == "linkedin")
+        {
+
+            List<object> lstdic = (List<object>)dicitem.Value;
+            foreach (var linkedinmsg in lstdic)
+            {
+                LinkedInUser.User_Updates item = (LinkedInUser.User_Updates)linkedinmsg;
+
+                string picurl = string.Empty;
+                if (string.IsNullOrEmpty(item.PictureUrl))
+                {
+                    picurl = "../Contents/img/blank_img.png";
+                }
+                else
+                {
+                    picurl = item.PictureUrl;
+                }
+                
+        <li class="left clearfix">
+            <span class="chat-img pull-left">
+                <img alt="User Avatar" class="img-circle profilePic" src="@picurl"/>
+            </span>
+            <div class="chat-body clearfix">
+                <div>
+                    <strong class="primary-font">@item.PersonFirstName" "@item.PersonLastName</strong>
+                    <small class="pull-right text-muted">
+                        <i class="fa fa-clock-o fa-fw"></i>@item.DateTime
+                    </small>
+                </div>
+
+
+                @try
+                {
+                    ///hrefPost = "https://www.twitter.com/" + item.FromId + "/status/" + item.MessageId.Replace(item.FromId, string.Empty).Replace("_", string.Empty).Trim();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error : " + ex.StackTrace);
+
+                }
+                <p>
+                    <a target="_blank" href="#">
+                        @item.Message
+                    </a>
+                </p>
+            </div>
+        </li>
+                
+            }
+        }
+
+
+
+    }
+</ul>

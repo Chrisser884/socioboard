@@ -1,0 +1,274 @@
+﻿ @using Domain.Socioboard.Domain;
+@{
+    User objUser = (User)Model;
+    string[] fnamelname = objUser.UserName.Split(' ');
+    string fname = fnamelname[0];
+    string lname = string.Empty;
+    for (int i = 1; i < fnamelname.Length; i++)
+    {
+        lname += fnamelname[i];
+    }
+    string profileurl = string.Empty;
+    string path = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    if (!string.IsNullOrEmpty(objUser.ProfileUrl))
+    {
+        try{
+        profileurl = System.Text.RegularExpressions.Regex.Split(objUser.ProfileUrl, "wwwroot")[1]; 
+        }
+        catch{
+            profileurl = objUser.ProfileUrl;
+        }
+    }
+}
+    
+
+<div class="container-fluid">
+    <h1 class="page-header">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_Settings</h1>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @objUser.UserName
+                       
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <!-- Nav tabs -->
+            
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="Personal">
+                    
+                    <div class="col-md-6">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                               @* <span class="input-group-addon">First Name</span>
+                                <input id="fname" value="@fname" type="text" class="form-control" placeholder="First Name">*@
+                                <label for="username-email">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_FirstName</label><span class="pull-right text-danger">*</span>
+                        <input id="fname" value="@fname" type="text" class="form-control" placeholder="First Name">
+                            </div>
+                            <div class="form-group">
+                              @*  <span class="input-group-addon">Last Name</span>
+                                <input id="lname" value="@lname" type="text" class="form-control" placeholder="Last Name">*@
+                                 <label for="username-email">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_LastName</label><span class="pull-right text-danger">*</span>
+                        <input id="lname" value="@lname" type="text" class="form-control" placeholder="Last Name">
+                            </div>
+                            <div class="form-group">
+                                @*<span class="input-group-addon">Email Address</span>
+                                <input readonly="" id="email" value="@objUser.EmailId" type="text" class="form-control" placeholder="Email id">*@
+<<<<<<< HEAD
+                                 <label for="username-email">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_Email</label><span class="pull-right text-danger">*</span>
+                        <input id="email" placeholder="E-mail Id" value="@objUser.EmailId" type="text" class="form-control" readonly="true">
+                            </div>
+                            <div class="form-group">
+                                @* Commented & Edited by Sumit Gupta [27/01/15] *@
+                            @*<button type="reset" class="btn btn-primary" data-toggle="modal" data-target="#ResetModal">Change Password</button>*@
+                            <button type="reset" class="btn btn-primary" data-toggle="modal" @*onclick="SendResetPasswordMail()"*@ data-target="#ResetModal">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_ChangePassword</button>
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ConfirmPassword">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_ResetEmail</button>
+=======
+                                 <label for="username-email">E-mail Address</label><span class="pull-right text-danger">*</span>
+                        <input id="email" placeholder="E-mail Id" value="@objUser.EmailId" type="text" class="form-control" readonly="true">
+                            </div>
+                            <div class="form-group">
+                            <button type="reset" class="btn btn-primary" data-toggle="modal" data-target="#ResetModal">Change Password</button>
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ConfirmPassword">Reset Email</button>
+>>>>>>> e052534b7a2a3744cad9dddbc3c6acccf394ca7b
+                                </div>
+                          
+                            @*<div class="form-group">
+                                <img src="@objUser.ProfileUrl" class="img-circle profilePic" alt="User Avatar">
+                                <label>Team members will see the avatar you have set.</label>
+                                <div><input id="uploadImage" type="file" class="btn btn-default col-md-6" onchange="AddImage()"></div>
+                            </div>*@
+
+                            <div class="form-group">
+                               @* <img src="@objUser.ProfileUrl" class="img-circle profilePic" alt="User Avatar">*@
+<<<<<<< HEAD
+                                <label>@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_TeamMemberAvatar</label>
+=======
+                                <label>Team members will see the avatar you have set.</label>
+>>>>>>> e052534b7a2a3744cad9dddbc3c6acccf394ca7b
+                                <div><input  id="input-24" type="file" class="btn btn-default col-md-6" onchange="AddImage()"></div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="time_zone">
+                                  <label for="time_zone">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_TimeZone</label>  
+                                </div>
+                                <div class="ps_select">
+                                    <select id="ContentPlaceHolder1_ddlTimeZone" class="select form-control">
+                                         @foreach (var timeZoneInfo in TimeZoneInfo.GetSystemTimeZones())
+                                         {
+                                             if (timeZoneInfo.StandardName == objUser.TimeZone)
+                                             {
+                                                 <option selected value="@timeZoneInfo.DisplayName">@timeZoneInfo.Id</option>
+                                             }
+                                             else
+                                             { 
+                                             <option value="@timeZoneInfo.DisplayName">@timeZoneInfo.Id</option>
+                                             }
+                                         }
+                                    </select>
+                                </div>
+                            </div>
+                            <button onclick="changesetting('@objUser.Id')" id="savepersonalsetting" type="button" class="btn btn-warning">@GlobusMultiLanguageLib.Resources.Admin_AdminSetting_AdminSettingPartial_Save</button>
+                        
+                          <button id="MonthlyUpgrade" onclick="Upgradeplan(this)" class="btn btn-success" type="submit">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_UpgradeMonthly</button>
+                            <button id="YearlyUpgrade" onclick="Upgradeplan(this)" class="btn btn-success" type="submit">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_UpgradeYearly</button>
+                        
+                        
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+          
+        </div>
+    </div>
+    <!-- /.panel-body -->
+</div>
+@* start Reset password modal *@
+<div class="modal fade" id="ResetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_ChangePassword</h4>
+      </div>
+      <form class="modal-body">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"></span>
+                                <input id="oldpass" value="" type="password" class="form-control" placeholder="Old Password">
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"></span>
+                                <input id="newpass" value="" type="password" class="form-control" placeholder="New Password">
+                            </div>
+            <div class="form-group input-group">
+                                <span class="input-group-addon"></span>
+                                <input id="confirmpass" value="" type="password" class="form-control" placeholder="Confirm Password">
+                            </div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_Close</button>
+        <button onclick="changePassword('@objUser.EmailId')" type="button" class="btn btn-primary">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_SaveChanges</button>
+          </form>
+      </div>
+    </div>
+  </div>
+
+@* End Reset password modal  *@
+
+@* start Reset Email modal *@
+<div class="modal fade" id="ResetMail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+<<<<<<< HEAD
+        <h4 class="modal-title" id="myModalLabel">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_ResetEmail</h4>
+=======
+        <h4 class="modal-title" id="myModalLabel">Reset Email</h4>
+>>>>>>> e052534b7a2a3744cad9dddbc3c6acccf394ca7b
+      </div>
+      <div class="modal-body">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"></span>
+                                <input id="newemail" value="" type="Email" class="form-control" placeholder="New Email">
+                            </div>
+<<<<<<< HEAD
+            <button type="button" class="btn btn-default" data-dismiss="modal">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_Close</button>
+        <button id="ChangeMail" onclick="ResetEmailId()" class="btn btn-primary">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_SaveChanges</button>
+=======
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="ChangeMail" onclick="ResetEmailId()" class="btn btn-primary">Save changes</button>
+>>>>>>> e052534b7a2a3744cad9dddbc3c6acccf394ca7b
+          </div>
+      </div>
+    </div>
+  </div>
+
+@* End Reset Email modal  *@
+
+@* start Password modal *@
+<div class="modal fade" id="ConfirmPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+<<<<<<< HEAD
+        <h4 class="modal-title" id="myModalLabel">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_ReEnterPassword</h4>
+      </div>
+      <div class="modal-body">
+          <h5>@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_SecurityReEnterPassword</h5>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_Password</span>
+                                <input id="CnfrmPassword" value="" type="Password" class="form-control" placeholder="Password">
+                            </div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_Close</button>
+        <button id="ConfrmPassword" onclick="ConfirmPassword()" class="btn btn-primary">@GlobusMultiLanguageLib.Resources.PersonalSetting_PersonalSettingPartial_Submit</button>
+=======
+        <h4 class="modal-title" id="myModalLabel">Please Re-enter Your Password</h4>
+      </div>
+      <div class="modal-body">
+          <h5>For your security, you must re-enter your password to continue.</h5>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">PassWord</span>
+                                <input id="CnfrmPassword" value="" type="Password" class="form-control" placeholder="Password">
+                            </div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="ConfrmPassword" onclick="ConfirmPassword()" class="btn btn-primary">Submit</button>
+>>>>>>> e052534b7a2a3744cad9dddbc3c6acccf394ca7b
+          </div>
+      </div>
+    </div>
+  </div>
+
+@* End Password modal  *@
+
+@* Scripts to upload image *@
+<link href="~/Themes/@path/Contents/css/fileinput.min.css" rel="stylesheet" />
+<script src="~/Themes/@path/Contents/js/fileinput.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#input-24").fileinput({
+            showUpload: false,
+            showRemove: false,
+            @if(!string.IsNullOrEmpty(objUser.ProfileUrl))
+            {
+                string[] profileUrl = objUser.ProfileUrl.Split(new string[] { "Socioboard" }, StringSplitOptions.None);
+                string imgurl = "/Themes/Socioboard" + profileUrl[1];
+               <text>  initialPreview: [
+"<img src='@imgurl' class='file-preview-image' >",
+            ],</text>
+            }
+           
+        });
+    });
+
+    $('#CnfrmPassword').keypress(function (e) {
+        debugger;
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            $("#ConfrmPassword").click();
+        }
+    });
+
+    $('#newemail').keypress(function (e) {
+        debugger;
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            $("#ChangeMail").click();
+        }
+    });
+<<<<<<< HEAD
+
+   
+
+=======
+>>>>>>> e052534b7a2a3744cad9dddbc3c6acccf394ca7b
+</script>
+@* End scripts upload image *@
